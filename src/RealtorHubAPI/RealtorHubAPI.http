@@ -1,0 +1,6 @@
+@RealtorHubAPI_HostAddress = http://localhost:5206
+
+GET {{RealtorHubAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
