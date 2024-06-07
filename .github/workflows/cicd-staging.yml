@@ -27,6 +27,9 @@ jobs:
     - name: Install jq
       run: sudo apt-get install -y jq
 
+    - name: List files to check for appsettings.json
+      run: ls -la src/RealtorHubAPI
+
     - name: Apply JSON Patch to appsettings.json
       env:
         OTEL_ENDPOINT: ${{ secrets.OTEL_ENDPOINT_STAGING }}
@@ -48,7 +51,7 @@ jobs:
             .Minio.AccessKey = env.MINIO_ACCESSKEY |
             .Minio.SecretKey = env.MINIO_SECRETKEY |
             .Minio.BucketName = env.MINIO_BUCKETNAME' \
-            appsettings.json > appsettings.Staging.json
+            src/RealtorHubAPI/appsettings.json > src/RealtorHubAPI/appsettings.Staging.json
 
     - name: Publish
       run: dotnet publish --no-restore --configuration Release --output ./publish
