@@ -28,6 +28,16 @@ jobs:
       run: sudo apt-get install -y jq
 
     - name: Apply JSON Patch to appsettings.json
+      env:
+        OTEL_ENDPOINT: ${{ secrets.OTEL_ENDPOINT_STAGING }}
+        CLOUDINARY_CLOUDNAME: ${{ secrets.CLOUDINARY_CLOUDNAME }}
+        CLOUDINARY_APIKEY: ${{ secrets.CLOUDINARY_APIKEY }}
+        CLOUDINARY_APISECRET: ${{ secrets.CLOUDINARY_APISECRET }}
+        MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT_STAGING }}
+        MINIO_ACCESSKEY: ${{ secrets.MINIO_ACCESSKEY_STAGING }}
+        MINIO_SECRETKEY: ${{ secrets.MINIO_SECRETKEY_STAGING }}
+        MINIO_BUCKETNAME: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
+        
       run: |
         jq '
             .Cloudinary.CloudName = $CLOUDINARY_CLOUDNAME |
@@ -38,15 +48,7 @@ jobs:
             .Minio.SecretKey = $MINIO_SECRETKEY |
             .Minio.BucketName = $MINIO_BUCKETNAME' \
             appsettings.json > appsettings.Staging.json
-      env:
-        OTEL_ENDPOINT: ${{ secrets.OTEL_ENDPOINT_STAGING }}
-        CLOUDINARY_CLOUDNAME: ${{ secrets.CLOUDINARY_CLOUDNAME }}
-        CLOUDINARY_APIKEY: ${{ secrets.CLOUDINARY_APIKEY }}
-        CLOUDINARY_APISECRET: ${{ secrets.CLOUDINARY_APISECRET }}
-        MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT_STAGING }}
-        MINIO_ACCESSKEY: ${{ secrets.MINIO_ACCESSKEY_STAGING }}
-        MINIO_SECRETKEY: ${{ secrets.MINIO_SECRETKEY_STAGING }}
-        MINIO_BUCKETNAME: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
+
 
     - name: Publish
       run: dotnet publish --no-restore --configuration Release --output ./publish
