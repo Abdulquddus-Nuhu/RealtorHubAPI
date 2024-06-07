@@ -46,6 +46,9 @@ jobs:
           }
         }' > temp_secrets.json
 
+    - name: Verify temp_secrets.json
+      run: cat temp_secrets.json
+
     - name: Apply JSON Patch to appsettings.json
       run: |
         jq -s '.[0] * .[1]' src/RealtorHubAPI/appsettings.json temp_secrets.json > src/RealtorHubAPI/appsettings.Staging.json
@@ -74,13 +77,3 @@ jobs:
         ROOT_ADMIN_EMAIL: ${{ secrets.ROOT_ADMIN_EMAIL }}
         ROOT_ADMIN_PHONENUMBER: ${{ secrets.ROOT_ADMIN_PHONENUMBER }}
         ROOT_DEFAULT_PASSWORD: ${{ secrets.ROOT_DEFAULT_PASSWORD }}
-        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-
-    #start service
-    - name: Start RealtorHubAPIStaging Service
-      uses: garygrossgarten/github-action-ssh@v0.6.3
-      with:
-        command: service RealtorHubAPIStaging restart
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        password: ${{ secrets.REMOTE_PASSWORD }}
