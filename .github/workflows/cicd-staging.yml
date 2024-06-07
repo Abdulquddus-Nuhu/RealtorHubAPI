@@ -42,17 +42,17 @@ jobs:
     - name: Verify appsettings.Staging.json
       run: cat src/RealtorHubAPI/appsettings.Staging.json
 
-    - name: Publish
-      run: dotnet publish --no-restore --configuration Release --output src/RealtorHubAPI/bin/Release/net8.0/publish
+    - name: DotNet Publish
+      run: dotnet publish -c Release
 
-    - name: Verify publish directory
-      run: ls -la src/RealtorHubAPI/bin/Release/net8.0/publish
+  #  - name: Publish
+   #   run: dotnet publish --no-restore --configuration Release --output ./publish
 
-     #copy to server
+    # Copy to server
     - name: Deploy to Staging - Copy to Server via SCP
       uses: garygrossgarten/github-action-scp@release
       with:
-        local: src/RealtorHubAPI/bin/Release/net8.0/publish/
+        local: /home/runner/work/RealtorHubAPI/RealtorHubAPI/src/RealtorHubAPI/bin/Release/net8.0/publish/
         concurrency: 10
         remote: ${{ secrets.REMOTE_TARGET_STAGING }}
         host: ${{ secrets.REMOTE_HOST }}
@@ -68,7 +68,7 @@ jobs:
         ROOT_DEFAULT_PASSWORD: ${{ secrets.ROOT_DEFAULT_PASSWORD }}
         JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
-    #start service
+    # Start service
     - name: Start RealtorHubAPIStaging Service
       uses: garygrossgarten/github-action-ssh@v0.6.3
       with:
