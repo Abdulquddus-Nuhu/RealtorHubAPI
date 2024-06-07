@@ -55,7 +55,7 @@ jobs:
             .Minio.AccessKey = $minio_accesskey |
             .Minio.SecretKey = $minio_secretkey |
             .Minio.BucketName = $minio_bucketname' \
-            src/RealtorHubAPI/appsettings.json > src/RealtorHubAPI/appsettings.Staging.json
+           src/RealtorHubAPI/appsettings.json > src/RealtorHubAPI/appsettings.Staging.json
 
     - name: Publish
       run: dotnet publish --no-restore --configuration Release --output ./publish
