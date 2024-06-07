@@ -5,7 +5,7 @@ RealtorHubAPI is a comprehensive backend system designed for managing real estat
 ## Key Features
 
 ### User Roles
-- **Admin**: Oversees everything, can add land, and perform CRUD operations on all listings.
+- **Admin**: Oversees everything, and perform CRUD operations on all listings.
 - **Realtor**: Manages property listings and uploads media.
 - **Users**: Browse listings and make purchases.
 
