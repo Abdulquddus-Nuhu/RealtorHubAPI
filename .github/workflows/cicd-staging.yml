@@ -37,19 +37,22 @@ jobs:
         MINIO_SECRETKEY: ${{ secrets.MINIO_SECRETKEY_STAGING }}
         MINIO_BUCKETNAME: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
       run: |
-        envsubst < src/RealtorHubAPI/appsettings.json > src/RealtorHubAPI/appsettings.Staging.json
+        envsubst < src/RealtorHubAPI/appsettings.template.json > src/RealtorHubAPI/appsettings.Staging.json
 
     - name: Verify appsettings.Staging.json
       run: cat src/RealtorHubAPI/appsettings.Staging.json
 
     - name: Publish
-      run: dotnet publish --no-restore --configuration Release --output ./publish
+      run: dotnet publish --no-restore --configuration Release --output src/RealtorHubAPI/bin/Release/net8.0/publish
 
-    # Copy to server
+    - name: Verify publish directory
+      run: ls -la src/RealtorHubAPI/bin/Release/net8.0/publish
+
+     #copy to server
     - name: Deploy to Staging - Copy to Server via SCP
       uses: garygrossgarten/github-action-scp@release
       with:
-        local: /home/runner/work/RealtorHubAPI/RealtorHubAPI/src/RealtorHubAPI/bin/Release/net8.0/publish/
+        local: src/RealtorHubAPI/bin/Release/net8.0/publish/
         concurrency: 10
         remote: ${{ secrets.REMOTE_TARGET_STAGING }}
         host: ${{ secrets.REMOTE_HOST }}
@@ -65,7 +68,7 @@ jobs:
         ROOT_DEFAULT_PASSWORD: ${{ secrets.ROOT_DEFAULT_PASSWORD }}
         JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
-    # Start service
+    #start service
     - name: Start RealtorHubAPIStaging Service
       uses: garygrossgarten/github-action-ssh@v0.6.3
       with:
