@@ -29,14 +29,13 @@ jobs:
       with:
         files: src/RealtorHubAPI/appsettings.Staging.json
       env:
-        ASPNETCORE_ENVIRONMENT: Staging
-        IT_HEAD_EMAIL: ${{ secrets.IT_HEAD_EMAIL }}
-        IT_HEAD_PASSWORD: ${{ secrets.IT_HEAD_PASSWORD }}
-        IT_HEAD_PHONENUMBER: ${{ secrets.IT_HEAD_PHONENUMBER }}
-        ROOT_ADMIN_EMAIL: ${{ secrets.ROOT_ADMIN_EMAIL }}
-        ROOT_ADMIN_PHONENUMBER: ${{ secrets.ROOT_ADMIN_PHONENUMBER }}
-        ROOT_DEFAULT_PASSWORD: ${{ secrets.ROOT_DEFAULT_PASSWORD }}
-        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+        Cloudinary.CloudName: ${{ secrets.CLOUDINARY_CLOUDNAME }}
+        Cloudinary.ApiKey: ${{ secrets.CLOUDINARY_APIKEY }}
+        Cloudinary.ApiSecret: ${{ secrets.CLOUDINARY_APISECRET }}
+        Minio.Endpoint: ${{ secrets.MINIO_ENDPOINT_STAGING }}
+        Minio.AccessKey: ${{ secrets.MINIO_ACCESSKEY_STAGING }}
+        Minio.SecretKey: ${{ secrets.MINIO_SECRETKEY_STAGING }}
+        Minio.BucketName: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
 
     - name: Verify appsettings.Staging.json
       run: cat src/RealtorHubAPI/appsettings.Staging.json
