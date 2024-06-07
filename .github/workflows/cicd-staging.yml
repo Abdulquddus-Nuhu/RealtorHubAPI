@@ -24,35 +24,25 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration Release
 
-    - name: Install envsubst
-      run: sudo apt-get install -y gettext-base
-
-    - name: Substitute Environment Variables in appsettings.json
-      env:
-        CLOUDINARY_CLOUDNAME: ${{ secrets.CLOUDINARY_CLOUDNAME }}
-        CLOUDINARY_APIKEY: ${{ secrets.CLOUDINARY_APIKEY }}
-        CLOUDINARY_APISECRET: ${{ secrets.CLOUDINARY_APISECRET }}
-        MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT_STAGING }}
-        MINIO_ACCESSKEY: ${{ secrets.MINIO_ACCESSKEY_STAGING }}
-        MINIO_SECRETKEY: ${{ secrets.MINIO_SECRETKEY_STAGING }}
-        MINIO_BUCKETNAME: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
-      run: |
-        envsubst < src/RealtorHubAPI/appsettings.template.json > src/RealtorHubAPI/appsettings.Staging.json
+    - name: Substitute Environment Variables in appsettings.Staging.json
+      uses: microsoft/variable-substitute@v1
+      with:
+        files: src/RealtorHubAPI/appsettings.Staging.json
 
     - name: Verify appsettings.Staging.json
       run: cat src/RealtorHubAPI/appsettings.Staging.json
 
-    - name: DotNet Publish
-      run: dotnet publish -c Release
+    - name: Publish
+      run: dotnet publish --no-restore --configuration Release --output src/RealtorHubAPI/bin/Release/net8.0/publish
 
-  #  - name: Publish
-   #   run: dotnet publish --no-restore --configuration Release --output ./publish
+    - name: Verify publish directory
+      run: ls -la src/RealtorHubAPI/bin/Release/net8.0/publish
 
     # Copy to server
     - name: Deploy to Staging - Copy to Server via SCP
       uses: garygrossgarten/github-action-scp@release
       with:
-        local: /home/runner/work/RealtorHubAPI/RealtorHubAPI/src/RealtorHubAPI/bin/Release/net8.0/publish/
+        local: src/RealtorHubAPI/bin/Release/net8.0/publish/
         concurrency: 10
         remote: ${{ secrets.REMOTE_TARGET_STAGING }}
         host: ${{ secrets.REMOTE_HOST }}
