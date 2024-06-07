@@ -40,15 +40,15 @@ jobs:
         
       run: |
         jq '
-            .Cloudinary.CloudName = $CLOUDINARY_CLOUDNAME |
-            .Cloudinary.ApiKey = $CLOUDINARY_APIKEY |
-            .Cloudinary.ApiSecret = $CLOUDINARY_APISECRET |
-            .Minio.Endpoint = $MINIO_ENDPOINT |
-            .Minio.AccessKey = $MINIO_ACCESSKEY |
-            .Minio.SecretKey = $MINIO_SECRETKEY |
-            .Minio.BucketName = $MINIO_BUCKETNAME' \
+            .Otel.Endpoint = env.OTEL_ENDPOINT |
+            .Cloudinary.CloudName = env.CLOUDINARY_CLOUDNAME |
+            .Cloudinary.ApiKey = env.CLOUDINARY_APIKEY |
+            .Cloudinary.ApiSecret = env.CLOUDINARY_APISECRET |
+            .Minio.Endpoint = env.MINIO_ENDPOINT |
+            .Minio.AccessKey = env.MINIO_ACCESSKEY |
+            .Minio.SecretKey = env.MINIO_SECRETKEY |
+            .Minio.BucketName = env.MINIO_BUCKETNAME' \
             appsettings.json > appsettings.Staging.json
-
 
     - name: Publish
       run: dotnet publish --no-restore --configuration Release --output ./publish
@@ -81,4 +81,3 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         password: ${{ secrets.REMOTE_PASSWORD }}
-
