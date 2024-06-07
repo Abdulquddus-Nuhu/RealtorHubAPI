@@ -32,7 +32,6 @@ jobs:
 
     - name: Apply JSON Patch to appsettings.json
       env:
-        OTEL_ENDPOINT: ${{ secrets.OTEL_ENDPOINT_STAGING }}
         CLOUDINARY_CLOUDNAME: ${{ secrets.CLOUDINARY_CLOUDNAME }}
         CLOUDINARY_APIKEY: ${{ secrets.CLOUDINARY_APIKEY }}
         CLOUDINARY_APISECRET: ${{ secrets.CLOUDINARY_APISECRET }}
@@ -42,7 +41,7 @@ jobs:
         MINIO_BUCKETNAME: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
         
       run: |
-        jq '.Otel.Endpoint = env.OTEL_ENDPOINT |
+        jq '
             .Cloudinary.CloudName = env.CLOUDINARY_CLOUDNAME |
             .Cloudinary.ApiKey = env.CLOUDINARY_APIKEY |
             .Cloudinary.ApiSecret = env.CLOUDINARY_APISECRET |
