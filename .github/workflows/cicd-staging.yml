@@ -1,0 +1,82 @@
+name: CI Staging
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'  # Specify your .NET version
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Install jq
+      run: sudo apt-get install -y jq
+
+    - name: Apply JSON Patch to appsettings.json
+      run: |
+        jq '.Otel.Endpoint = $OTEL_ENDPOINT |
+            .Cloudinary.CloudName = $CLOUDINARY_CLOUDNAME |
+            .Cloudinary.ApiKey = $CLOUDINARY_APIKEY |
+            .Cloudinary.ApiSecret = $CLOUDINARY_APISECRET |
+            .Minio.Endpoint = $MINIO_ENDPOINT |
+            .Minio.AccessKey = $MINIO_ACCESSKEY |
+            .Minio.SecretKey = $MINIO_SECRETKEY |
+            .Minio.BucketName = $MINIO_BUCKETNAME' \
+            appsettings.json > appsettings.Staging.json
+      env:
+        OTEL_ENDPOINT: ${{ secrets.OTEL_ENDPOINT_STAGING }}
+        CLOUDINARY_CLOUDNAME: ${{ secrets.CLOUDINARY_CLOUDNAME }}
+        CLOUDINARY_APIKEY: ${{ secrets.CLOUDINARY_APIKEY }}
+        CLOUDINARY_APISECRET: ${{ secrets.CLOUDINARY_APISECRET }}
+        MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT_STAGING }}
+        MINIO_ACCESSKEY: ${{ secrets.MINIO_ACCESSKEY_STAGING }}
+        MINIO_SECRETKEY: ${{ secrets.MINIO_SECRETKEY_STAGING }}
+        MINIO_BUCKETNAME: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
+
+    - name: Publish
+      run: dotnet publish --no-restore --configuration Release --output ./publish
+
+     #copy to server
+    - name: Deploy to Staging - Copy to Server via SCP
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: /home/runner/work/RealtorHubAPI/RealtorHubAPI/src/RealtorHubAPI/bin/Release/net8.0/publish/
+        concurrency: 10
+        remote: ${{ secrets.REMOTE_TARGET_STAGING }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        password: ${{ secrets.REMOTE_PASSWORD }}
+      env:
+        ASPNETCORE_ENVIRONMENT: Staging
+        IT_HEAD_EMAIL: ${{ secrets.IT_HEAD_EMAIL }}
+        IT_HEAD_PASSWORD: ${{ secrets.IT_HEAD_PASSWORD }}
+        IT_HEAD_PHONENUMBER: ${{ secrets.IT_HEAD_PHONENUMBER }}
+        ROOT_ADMIN_EMAIL: ${{ secrets.ROOT_ADMIN_EMAIL }}
+        ROOT_ADMIN_PHONENUMBER: ${{ secrets.ROOT_ADMIN_PHONENUMBER }}
+        ROOT_DEFAULT_PASSWORD: ${{ secrets.ROOT_DEFAULT_PASSWORD }}
+        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+
+    #start service
+    - name: Start RealtorHubAPIStaging Service
+      uses: garygrossgarten/github-action-ssh@v0.6.3
+      with:
+        command: service RealtorHubAPIStaging restart
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        password: ${{ secrets.REMOTE_PASSWORD }}
+
