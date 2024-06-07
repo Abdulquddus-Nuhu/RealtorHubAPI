@@ -30,32 +30,28 @@ jobs:
     - name: List files to check for appsettings.json
       run: ls -la src/RealtorHubAPI
 
-    - name: Apply JSON Patch to appsettings.json
-      env:
-        CLOUDINARY_CLOUDNAME: ${{ secrets.CLOUDINARY_CLOUDNAME }}
-        CLOUDINARY_APIKEY: ${{ secrets.CLOUDINARY_APIKEY }}
-        CLOUDINARY_APISECRET: ${{ secrets.CLOUDINARY_APISECRET }}
-        MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT_STAGING }}
-        MINIO_ACCESSKEY: ${{ secrets.MINIO_ACCESSKEY_STAGING }}
-        MINIO_SECRETKEY: ${{ secrets.MINIO_SECRETKEY_STAGING }}
-        MINIO_BUCKETNAME: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
-        
+    - name: Create temp secrets JSON file
       run: |
-        jq --arg cloudinary_cloudname "$CLOUDINARY_CLOUDNAME" \
-           --arg cloudinary_apikey "$CLOUDINARY_APIKEY" \
-           --arg cloudinary_apisecret "$CLOUDINARY_APISECRET" \
-           --arg minio_endpoint "$MINIO_ENDPOINT" \
-           --arg minio_accesskey "$MINIO_ACCESSKEY" \
-           --arg minio_secretkey "$MINIO_SECRETKEY" \
-           --arg minio_bucketname "$MINIO_BUCKETNAME" \
-           '.Cloudinary.CloudName = $cloudinary_cloudname |
-            .Cloudinary.ApiKey = $cloudinary_apikey |
-            .Cloudinary.ApiSecret = $cloudinary_apisecret |
-            .Minio.Endpoint = $minio_endpoint |
-            .Minio.AccessKey = $minio_accesskey |
-            .Minio.SecretKey = $minio_secretkey |
-            .Minio.BucketName = $minio_bucketname' \
-           src/RealtorHubAPI/appsettings.json > src/RealtorHubAPI/appsettings.Staging.json
+        echo '{
+          "Cloudinary": {
+            "CloudName": "'"${{ secrets.CLOUDINARY_CLOUDNAME }}"'",
+            "ApiKey": "'"${{ secrets.CLOUDINARY_APIKEY }}"'",
+            "ApiSecret": "'"${{ secrets.CLOUDINARY_APISECRET }}"'"
+          },
+          "Minio": {
+            "Endpoint": "'"${{ secrets.MINIO_ENDPOINT_STAGING }}"'",
+            "AccessKey": "'"${{ secrets.MINIO_ACCESSKEY_STAGING }}"'",
+            "SecretKey": "'"${{ secrets.MINIO_SECRETKEY_STAGING }}"'",
+            "BucketName": "'"${{ secrets.MINIO_BUCKETNAME_STAGING }}"'"
+          }
+        }' > temp_secrets.json
+
+    - name: Apply JSON Patch to appsettings.json
+      run: |
+        jq -s '.[0] * .[1]' src/RealtorHubAPI/appsettings.json temp_secrets.json > src/RealtorHubAPI/appsettings.Staging.json
+
+    - name: Verify appsettings.Staging.json
+      run: cat src/RealtorHubAPI/appsettings.Staging.json
 
     - name: Publish
       run: dotnet publish --no-restore --configuration Release --output ./publish
