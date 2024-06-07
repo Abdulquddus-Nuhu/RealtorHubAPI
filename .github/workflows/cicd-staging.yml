@@ -25,7 +25,7 @@ jobs:
       run: dotnet build --no-restore --configuration Release
 
     - name: Substitute Environment Variables in appsettings.Staging.json
-      uses: actions/substitute-action@v1
+      uses: microsoft/variable-substitute@v1
       with:
         files: src/RealtorHubAPI/appsettings.Staging.json
       env:
@@ -57,7 +57,7 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         password: ${{ secrets.REMOTE_PASSWORD }}
-        
+
     # Start service
     - name: Start RealtorHubAPIStaging Service
       uses: garygrossgarten/github-action-ssh@v0.6.3
