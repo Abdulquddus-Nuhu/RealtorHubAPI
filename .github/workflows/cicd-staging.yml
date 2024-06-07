@@ -25,9 +25,18 @@ jobs:
       run: dotnet build --no-restore --configuration Release
 
     - name: Substitute Environment Variables in appsettings.Staging.json
-      uses: microsoft/variable-substitute@v1
+      uses: actions/substitute-action@v1
       with:
         files: src/RealtorHubAPI/appsettings.Staging.json
+      env:
+        ASPNETCORE_ENVIRONMENT: Staging
+        IT_HEAD_EMAIL: ${{ secrets.IT_HEAD_EMAIL }}
+        IT_HEAD_PASSWORD: ${{ secrets.IT_HEAD_PASSWORD }}
+        IT_HEAD_PHONENUMBER: ${{ secrets.IT_HEAD_PHONENUMBER }}
+        ROOT_ADMIN_EMAIL: ${{ secrets.ROOT_ADMIN_EMAIL }}
+        ROOT_ADMIN_PHONENUMBER: ${{ secrets.ROOT_ADMIN_PHONENUMBER }}
+        ROOT_DEFAULT_PASSWORD: ${{ secrets.ROOT_DEFAULT_PASSWORD }}
+        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
     - name: Verify appsettings.Staging.json
       run: cat src/RealtorHubAPI/appsettings.Staging.json
@@ -48,16 +57,7 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         password: ${{ secrets.REMOTE_PASSWORD }}
-      env:
-        ASPNETCORE_ENVIRONMENT: Staging
-        IT_HEAD_EMAIL: ${{ secrets.IT_HEAD_EMAIL }}
-        IT_HEAD_PASSWORD: ${{ secrets.IT_HEAD_PASSWORD }}
-        IT_HEAD_PHONENUMBER: ${{ secrets.IT_HEAD_PHONENUMBER }}
-        ROOT_ADMIN_EMAIL: ${{ secrets.ROOT_ADMIN_EMAIL }}
-        ROOT_ADMIN_PHONENUMBER: ${{ secrets.ROOT_ADMIN_PHONENUMBER }}
-        ROOT_DEFAULT_PASSWORD: ${{ secrets.ROOT_DEFAULT_PASSWORD }}
-        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-
+        
     # Start service
     - name: Start RealtorHubAPIStaging Service
       uses: garygrossgarten/github-action-ssh@v0.6.3
