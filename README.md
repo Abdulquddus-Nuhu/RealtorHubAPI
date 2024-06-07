@@ -69,3 +69,7 @@ RealtorHubAPI is a comprehensive backend system designed for managing real estat
 ### Authentication and Authorization
 - **JWT Tokens**: The application uses JWT tokens for authentication and authorization.
 - **Role-Based Access**: Pages and actions are restricted based on user roles (Admin, Realtor, User).
+
+### API Endpoint
+The API is deployed and accessible at: [RealtorHubAPI Swagger Documentation](http://162.0.222.79:4080/swagger/index.html)
+
