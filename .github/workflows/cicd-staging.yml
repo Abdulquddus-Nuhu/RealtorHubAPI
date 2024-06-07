@@ -41,14 +41,20 @@ jobs:
         MINIO_BUCKETNAME: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
         
       run: |
-        jq '
-            .Cloudinary.CloudName = env.CLOUDINARY_CLOUDNAME |
-            .Cloudinary.ApiKey = env.CLOUDINARY_APIKEY |
-            .Cloudinary.ApiSecret = env.CLOUDINARY_APISECRET |
-            .Minio.Endpoint = env.MINIO_ENDPOINT |
-            .Minio.AccessKey = env.MINIO_ACCESSKEY |
-            .Minio.SecretKey = env.MINIO_SECRETKEY |
-            .Minio.BucketName = env.MINIO_BUCKETNAME' \
+        jq --arg cloudinary_cloudname "$CLOUDINARY_CLOUDNAME" \
+           --arg cloudinary_apikey "$CLOUDINARY_APIKEY" \
+           --arg cloudinary_apisecret "$CLOUDINARY_APISECRET" \
+           --arg minio_endpoint "$MINIO_ENDPOINT" \
+           --arg minio_accesskey "$MINIO_ACCESSKEY" \
+           --arg minio_secretkey "$MINIO_SECRETKEY" \
+           --arg minio_bucketname "$MINIO_BUCKETNAME" \
+           '.Cloudinary.CloudName = $cloudinary_cloudname |
+            .Cloudinary.ApiKey = $cloudinary_apikey |
+            .Cloudinary.ApiSecret = $cloudinary_apisecret |
+            .Minio.Endpoint = $minio_endpoint |
+            .Minio.AccessKey = $minio_accesskey |
+            .Minio.SecretKey = $minio_secretkey |
+            .Minio.BucketName = $minio_bucketname' \
             src/RealtorHubAPI/appsettings.json > src/RealtorHubAPI/appsettings.Staging.json
 
     - name: Publish
