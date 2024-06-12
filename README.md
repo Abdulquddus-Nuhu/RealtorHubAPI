@@ -1,17 +1,13 @@
 # RealtorHubAPI
 
-RealtorHubAPI is a comprehensive backend system designed for managing real estate listings. It allows users to perform CRUD operations on property listings, upload images and videos, and facilitates marketplace interactions.
+RealtorHubAPI is a comprehensive backend system designed for managing real estate listings. It allows admins to perform CRUD operations on property listings, upload images and videos, and facilitates marketplace interactions.
 
 ## Key Features
 
 ### User Roles
-- **Admin**: Oversees everything, and perform CRUD operations on all listings.
-- **Realtor**: Manages property listings and uploads media.
+- **Admin**: Oversees everything and Manages property listings, and perform CRUD operations on all listings.
+- **Realtor**: Manages property listings, add properties and uploads media.
 - **Users**: Browse listings and make purchases.
-
-### CRUD Operations
-- Users can create, read, update, and delete property listings.
-- Admins have the additional capability to oversee all listings and perform CRUD operations.
 
 ### Media Upload
 - After creating a land listing, users can upload images and videos.
@@ -35,7 +31,7 @@ RealtorHubAPI is a comprehensive backend system designed for managing real estat
 ### Deployment and Monitoring
 - **GitHub CI/CD** is used for automated deployment to a Linux server.
 - **Docker Compose** is used to run Prometheus, Grafana, and OpenTelemetry for monitoring the API.
-- The application is hosted using **Nginx**.
+- The application is hosted using **Linux server**.
 
 ### Secure Media Viewing
 - When the frontend tries to view an image or video, it retrieves the URL from the database.
@@ -52,7 +48,8 @@ RealtorHubAPI is a comprehensive backend system designed for managing real estat
 - **Docker Compose** for running monitoring tools.
 - **Prometheus** and **Grafana** for monitoring.
 - **OpenTelemetry** for observability.
-- **Nginx** for hosting.
+- **Nginx** for Reverse Proxy.
+- **Linux Server** for hosting.
 
 ## How It Works
 1. **Property Management**: Users can manage property listings through standard CRUD operations. Admins can oversee and perform CRUD operations on all listings.
