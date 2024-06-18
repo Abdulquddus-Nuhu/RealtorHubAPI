@@ -15,30 +15,20 @@ namespace RealtorHubAPI.Controllers
             .FirstOrDefault(x => x.Type.Equals(claimType))?.Value;
 
 
-        protected Guid UserId => GetClaimAsGuid(ClaimTypes.NameIdentifier);
+        protected int UserId => GetClaimAsInteger("id");
 
-        private Guid GetClaimAsGuid(string claimType)
+        private int GetClaimAsInteger(string claimType)
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == claimType);
-            if (claim != null && Guid.TryParse(claim.Value, out Guid guid))
+            if (claim != null && int.TryParse(claim.Value, out int guid))
             {
                 return guid;
             }
-            return Guid.Empty;
+            return 0;
         }
 
 
         //protected string Role => GetClaim(TrickingLibraryConstants.Claims.Role);
-
-        //var claims = new List<Claim>
-        //{
-        //    new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()), // Ensure this is stored as a GUID
-        //    new Claim(ClaimTypes.Email, persona.Email),
-        //    new Claim(ClaimTypes.Name, persona.Email),
-        //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        //    new Claim("fullName", persona.FirstName + " " + persona.LastName)
-        //};
-
 
     }
 }

@@ -38,7 +38,7 @@ namespace RealtorHubAPI.Controllers
                 Status = "PENDING",
                 Amount = dto.Amount,
                 Currency = dto.Currency,
-                LandId = dto.LandId,
+                PropertyId = dto.PropertyId,
                 UserId = user.Id
             };
 

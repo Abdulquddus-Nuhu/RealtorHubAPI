@@ -6,6 +6,6 @@
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public string Currency { get; set; }
-        public Guid LandId { get; set; }
+        public int PropertyId { get; set; }
     }
 }

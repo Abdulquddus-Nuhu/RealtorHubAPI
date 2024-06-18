@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RealtorHubAPI.Entities
 {
     public class BaseEntity : IBaseEntity
     {
-        [Key]
-        public Guid Id { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public bool IsDeleted { get; set; }
         public string? DeletedBy { get;  set; } = string.Empty;
         public virtual DateTime? Deleted { get;  set; }
@@ -15,7 +16,6 @@ namespace RealtorHubAPI.Entities
         public virtual string? LastModifiedBy { get; set; }
         protected BaseEntity()
         {
-            Id = Guid.NewGuid();
             IsDeleted = false;
             Created = DateTime.UtcNow;
         }

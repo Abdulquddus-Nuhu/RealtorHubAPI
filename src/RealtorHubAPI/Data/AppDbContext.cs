@@ -7,7 +7,7 @@ using RealtorHubAPI.Entities;
 
 namespace RealtorHubAPI.Data
 {
-    public class AppDbContext : IdentityDbContext<User, Role, Guid>
+    public class AppDbContext : IdentityDbContext<User, Role, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
@@ -15,20 +15,16 @@ namespace RealtorHubAPI.Data
 
         public DbSet<ActivityLog> ActivityLogs => Set<ActivityLog>();
         //public DbSet<Realtor> Realtors { get; set; }
-        public DbSet<Land> Lands { get; set; }
-        public DbSet<LandImage> LandImages { get; set; }
-        public DbSet<LandVideo> LandVideos { get; set; }
+        public DbSet<Property> Properties { get; set; }
+        public DbSet<PropertyImage> PropertyImages { get; set; }
+        public DbSet<PropertyVideo> PropertyVideos { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             base.OnModelCreating(modelBuilder);
 
             
-            //modelBuilder.HasSequence<int>("AccountNumberSeq", schema: "public")
-            //    .StartsAt(2000753554)
-            //    .IncrementsBy(1);
         }
 
 

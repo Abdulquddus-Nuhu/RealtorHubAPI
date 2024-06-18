@@ -4,6 +4,6 @@
     {
         //public string FileName { get; set; }
         public string FileUrl { get; set; }
-        public Guid LandId { get; set; }
+        public int LandId { get; set; }
     }
 }

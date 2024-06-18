@@ -6,7 +6,7 @@ namespace RealtorHubAPI.Entities
 {
     public class ActivityLog : BaseEntity
     {
-        public Guid? UserId { get; set; }
+        public int? UserId { get; set; }
         public User? User { get; set; }
 
         [StringLength(50, MinimumLength = 1)]
