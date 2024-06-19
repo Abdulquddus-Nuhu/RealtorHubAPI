@@ -104,6 +104,10 @@ try
     builder.Services.AddSwaggerGen();
 
     string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION") ?? string.Empty;
+    if (string.IsNullOrWhiteSpace(connectionString))
+    {
+        connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    }
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         //options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Infrastructure"));
