@@ -108,6 +108,12 @@ try
     {
         connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
     }
+
+    int shortConnectStringLenght = 30;
+    if (connectionString.Length <= shortConnectStringLenght)
+    {
+        connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    }
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         //options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Infrastructure"));
