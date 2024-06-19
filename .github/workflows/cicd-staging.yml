@@ -41,7 +41,7 @@ jobs:
       run: cat src/RealtorHubAPI/appsettings.Staging.json
 
     - name: Publish
-      run: dotnet publish --no-restore --configuration Release --output src/RealtorHubAPI/bin/Release/net8.0/publish
+      run: dotnet publish RealtorHubAPI.sln --no-restore --configuration Release --output src/RealtorHubAPI/bin/Release/net8.0/publish
 
     - name: Verify publish directory
       run: ls -la src/RealtorHubAPI/bin/Release/net8.0/publish
