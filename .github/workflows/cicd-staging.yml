@@ -22,7 +22,7 @@ jobs:
       run: dotnet restore RealtorHubAPI.sln
 
     - name: Build
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build RealtorHubAPI.sln --no-restore --configuration Release
 
     - name: Substitute Environment Variables in appsettings.Staging.json
       uses: microsoft/variable-substitution@v1
