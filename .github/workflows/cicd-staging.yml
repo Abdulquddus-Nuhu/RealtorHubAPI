@@ -1,4 +1,4 @@
-name: CI Staging Linux
+name: CI/CD Staging Linux
 
 on:
   push:
