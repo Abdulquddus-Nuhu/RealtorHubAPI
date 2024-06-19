@@ -39,7 +39,7 @@ try
     if (InDocker)
     {
         builder.WebHost.UseUrls("http://*:8080");
-        builder.WebHost.UseUrls("https://*:8081");
+        //builder.WebHost.UseUrls("https://*:8081");
     }
     else if (builder.Environment.IsProduction())
     {
