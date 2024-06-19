@@ -81,5 +81,7 @@ jobs:
             docker pull abdulquddusnuhu/realtorhubapi:staging
             export DB_CONNECTION=${{ secrets.DB_CONNECTION }}
             export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+            echo "DB_CONNECTION is $DB_CONNECTION"
+            echo "JWT_SECRET_KEY is $JWT_SECRET_KEY"
             docker compose -f ${{ secrets.REMOTE_TARGET_STAGING }}/docker-compose.yml down
             docker compose -f ${{ secrets.REMOTE_TARGET_STAGING }}/docker-compose.yml up -d
