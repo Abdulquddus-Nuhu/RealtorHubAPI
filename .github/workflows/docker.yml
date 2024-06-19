@@ -39,6 +39,15 @@ jobs:
           source: "docker-compose.yml"
           target: ${{ secrets.REMOTE_TARGET_STAGING }}
 
+      - name: Copy config files to server
+        uses: appleboy/scp-action@v0.1.2
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
+          source: "config/*"
+          target: "${{ secrets.REMOTE_TARGET_STAGING }}/config"
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -68,6 +77,9 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASSWORD }}
+          env:
+            DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+            JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           script: |
             docker pull abdulquddusnuhu/realtorhubapi:staging
-            DB_CONNECTION=${{ secrets.DB_CONNECTION }} docker compose -f ${{ secrets.REMOTE_TARGET_STAGING }}/docker-compose.yml up -d
+            docker compose -f ${{ secrets.REMOTE_TARGET_STAGING }}/docker-compose.yml up -d
