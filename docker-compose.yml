@@ -7,33 +7,103 @@
 #       context: .
 #       dockerfile: src/RealtorHubAPI/Dockerfile
 
-version: '3.4'
+####################################
+## working old one
+####################################
+# version: '3.4'
+
+# networks:
+#   monitoring:
+#     driver: bridge
+
+# volumes:
+#   prometheus-data:
+#     driver: local
+#   grafana-data:
+#     driver: local
 
 
-networks:
-  monitoring:
-    driver: bridge
+# services:
+#   realtorhubapi:
+#     image: ${DOCKER_REGISTRY-}realtorhubapi
+#     build:
+#       context: .
+#       dockerfile: src/RealtorHubAPI/Dockerfile
 
-volumes:
-  prometheus-data:
-    driver: local
-  grafana-data:
-    driver: local
+#     depends_on:
+#       - otel-collector
+#     ports:
+#       - 5131:5131
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Staging
+#       - DB_CONNECTION=${DB_CONNECTION}
+#       - Otel__Endpoint=http://otel-collector:4317
+#     networks:
+#       - monitoring
+
+#   otel-collector:
+#     image: otel/opentelemetry-collector:latest
+#     command: ["--config=/etc/otel-collector-config.yml"]
+#     volumes:
+#       - ./config/otel-collector-config.yml:/etc/otel-collector-config.yml
+#     ports:
+#       - "8888:8888" 
+#       - "8889:8889" 
+#       - "13133:13133"
+#       - "4317:4317"
+#     networks:
+#       - monitoring
+
+#   prometheus:
+#     image: prom/prometheus:latest
+#     container_name: otel-prometheus
+#     ports:
+#       - 9090:9090
+#     command:
+#       - '--config.file=/etc/prometheus/prometheus.yml'
+#     volumes:
+#       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+#       - prometheus-data:/prometheus
+#     restart: unless-stopped
+#     networks:
+#       - monitoring
+
+#   grafana:
+#     image: grafana/grafana-oss:latest
+#     container_name: otel-grafana-1
+#     ports:
+#       - '3000:3000'
+#     volumes:
+#       - grafana-data:/var/lib/grafana
+#     restart: unless-stopped
+#     networks:
+#       - monitoring
+
+#   node_exporter:
+#     image: quay.io/prometheus/node-exporter:v1.5.0
+#     container_name: otel-node_exporter
+#     command: '--path.rootfs=/host'
+#     pid: host
+#     restart: unless-stopped
+#     volumes:
+#       - /proc:/host/proc:ro
+#       - /sys:/host/sys:ro
+#       - /:/rootfs:ro
+#     networks:
+#       - monitoring
 
 
+
+###################################
+###Testing
+##################################
 services:
   realtorhubapi:
-    image: ${DOCKER_REGISTRY-}realtorhubapi
-    build:
-      context: .
-      dockerfile: src/RealtorHubAPI/Dockerfile
-
-    depends_on:
-      - otel-collector
+    image: abdulquddusnuhu/realtorhubapi:staging
     ports:
-      - 5131:5131
+      - "5131:5131"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_ENVIRONMENT=Production
       - DB_CONNECTION=${DB_CONNECTION}
       - Otel__Endpoint=http://otel-collector:4317
     networks:
@@ -45,8 +115,8 @@ services:
     volumes:
       - ./config/otel-collector-config.yml:/etc/otel-collector-config.yml
     ports:
-      - "8888:8888" 
-      - "8889:8889" 
+      - "8888:8888"
+      - "8889:8889"
       - "13133:13133"
       - "4317:4317"
     networks:
@@ -56,7 +126,7 @@ services:
     image: prom/prometheus:latest
     container_name: otel-prometheus
     ports:
-      - 9090:9090
+      - "9090:9090"
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     volumes:
@@ -70,7 +140,7 @@ services:
     image: grafana/grafana-oss:latest
     container_name: otel-grafana-1
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
     restart: unless-stopped
@@ -89,4 +159,14 @@ services:
       - /:/rootfs:ro
     networks:
       - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
 
