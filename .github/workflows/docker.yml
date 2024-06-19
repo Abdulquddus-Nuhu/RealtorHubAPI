@@ -1,4 +1,4 @@
-name: CI/CD Docker Staging
+name: CI/CD
 
 on:
   push:
@@ -44,6 +44,24 @@ jobs:
     needs: build
 
     steps:
+    - name: List files in target directory
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        password: ${{ secrets.REMOTE_PASSWORD }}
+        script: |
+          ls -al ${{ secrets.REMOTE_TARGET_STAGING }}
+
+    - name: Verify Docker Compose Installation
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        password: ${{ secrets.REMOTE_PASSWORD }}
+        script: |
+          docker compose version
+
     - name: Deploy to Linux server
       uses: appleboy/ssh-action@v0.1.4
       with:
@@ -52,4 +70,4 @@ jobs:
         password: ${{ secrets.REMOTE_PASSWORD }}
         script: |
           docker pull abdulquddusnuhu/realtorhubapi:staging
-          DB_CONNECTION=${{ secrets.DB_CONNECTION }} docker-compose -f ${{ secrets.REMOTE_TARGET_STAGING }}/docker-compose.yml up -d
+          DB_CONNECTION=${{ secrets.DB_CONNECTION }} docker compose -f ${{ secrets.REMOTE_TARGET_STAGING }}/docker-compose.yml up -d
