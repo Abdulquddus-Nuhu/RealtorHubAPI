@@ -34,8 +34,14 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
+    bool InDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
     // Add services to the container.
-    if (builder.Environment.IsProduction())
+    if (InDocker)
+    {
+        builder.WebHost.UseUrls("http://*:8080");
+        builder.WebHost.UseUrls("https://*:8081");
+    }
+    else if (builder.Environment.IsProduction())
     {
         builder.WebHost.UseUrls("http://localhost:4002");
     }
