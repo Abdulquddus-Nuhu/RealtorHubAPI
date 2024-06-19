@@ -70,3 +70,11 @@ RealtorHubAPI is a comprehensive backend system designed for managing real estat
 ### API Endpoint
 The API is deployed and accessible at: [RealtorHubAPI Swagger Documentation](http://162.0.222.79:4080/swagger/index.html)
 
+## Testing the API
+To test the API, you can use the following admin account credentials:
+
+```json
+{
+  "email": "demo@spotify.com",
+  "password": "Demo@1234"
+}
