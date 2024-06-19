@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD Docker Staging
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         password: ${{ secrets.REMOTE_PASSWORD }}
-        source: "src/RealtorHubAPI/docker-compose.yml"
+        source: "docker-compose.yml"
         target: ${{ secrets.REMOTE_TARGET_STAGING }}
 
   deploy:
