@@ -105,6 +105,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DB_CONNECTION=${DB_CONNECTION}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - Otel__Endpoint=http://otel-collector:4317
     networks:
       - monitoring
@@ -130,7 +131,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
     restart: unless-stopped
     networks:
