@@ -17,7 +17,7 @@ namespace CryptoProject.SeedDatabase
             {
                 var superAdmin = new User()
                 {
-                    Id = Guid.NewGuid(),
+                    //Id = Guid.NewGuid(),
                     Email = superAdminEmail,
                     FirstName = "Super",
                     LastName = "Admin",
@@ -41,9 +41,9 @@ namespace CryptoProject.SeedDatabase
             {
                 var admin = new User()
                 {
-                    Id = Guid.NewGuid(),
+                    //Id = Guid.NewGuid(),
                     Email = Admin,
-                    FirstName = "Boss",
+                    FirstName = "Demo",
                     LastName = "Admin",
                     PhoneNumber = Environment.GetEnvironmentVariable("ADMIN_PHONENUMBER"),
                     UserName = Admin,

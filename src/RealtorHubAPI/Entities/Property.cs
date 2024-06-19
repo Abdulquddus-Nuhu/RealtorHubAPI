@@ -1,19 +1,22 @@
 ﻿using RealtorHubAPI.Entities.Identity;
+using System.Text.Json.Serialization;
 
 namespace RealtorHubAPI.Entities
 {
-    public class Land : BaseEntity
+    public class Property : BaseEntity
     {
         public string Title { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
         public bool IsAvailable { get; set; } = true;
-        //public int RealtorId { get; set; }
-        //public Realtor Realtor { get; set; }
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
-        public ICollection<LandImage> Images { get; set; }
-        public ICollection<LandVideo> Videos { get; set; }
+
+        [JsonIgnore]
+        public ICollection<PropertyImage> Images { get; set; }
+
+        [JsonIgnore]
+        public ICollection<PropertyVideo> Videos { get; set; }
     }
 
 }

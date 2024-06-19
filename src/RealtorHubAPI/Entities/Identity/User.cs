@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RealtorHubAPI.Entities.Identity
 {
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser<int>
     {
         [StringLength(50)]
         public string FirstName { get; set; }
@@ -44,7 +44,6 @@ namespace RealtorHubAPI.Entities.Identity
         {
             Created = created;
             IsDeleted = isDeleted;
-            Id = Guid.NewGuid();
         }
         public User() : this(DateTime.UtcNow, false) { }
     }

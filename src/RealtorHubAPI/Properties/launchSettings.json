@@ -30,9 +30,9 @@
         "ROOT_ADMIN_EMAIL": "abdulquddusnuhu@gmail.com",
         "ROOT_ADMIN_PHONENUMBER": "08038441300",
         "ROOT_DEFAULT_PASSWORD": "DefaultPass#123",
-        "ADMIN_EMAIL": "hoawilmb@gmail.com",
-        "ADMIN_PHONENUMBER": "08060216275",
-        "ADMIN_PASSWORD": "DefaultPass@1234",
+        "ADMIN_EMAIL": "demo@spotify.com",
+        "ADMIN_PHONENUMBER": "08060000005",
+        "ADMIN_PASSWORD": "Demo@1234",
         "JWT_SECRET_KEY": "SampleKey&999666SampleKey&392929SampleKey&392929"
       },
       "dotnetRunMessages": true,

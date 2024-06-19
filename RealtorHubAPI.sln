@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4EFA4A85-4243-46D6-9F46-EA5C41124943}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealtorHubAPI", "src\RealtorHubAPI\RealtorHubAPI.csproj", "{4AA9EA8B-7DF8-490B-BA32-7D42A5AB5406}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealtorHubAPI", "src\RealtorHubAPI\RealtorHubAPI.csproj", "{4AA9EA8B-7DF8-490B-BA32-7D42A5AB5406}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2E0C8886-80FD-4E52-915B-81B31FFCF84A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{4AA9EA8B-7DF8-490B-BA32-7D42A5AB5406}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AA9EA8B-7DF8-490B-BA32-7D42A5AB5406}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AA9EA8B-7DF8-490B-BA32-7D42A5AB5406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E0C8886-80FD-4E52-915B-81B31FFCF84A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E0C8886-80FD-4E52-915B-81B31FFCF84A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E0C8886-80FD-4E52-915B-81B31FFCF84A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E0C8886-80FD-4E52-915B-81B31FFCF84A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

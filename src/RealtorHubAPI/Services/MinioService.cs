@@ -146,7 +146,7 @@ namespace RealtorHubAPI.Services
         }
 
       
-        public async Task<PresignedUrlResponse> GeneratePresignedUrlForUpload(Guid landId)
+        public async Task<PresignedUrlResponse> GeneratePresignedUrlForUpload(int landId)
         {
             string newFileName = DateTime.UtcNow.Ticks.ToString();
             string filePath = $"{FileType.Videos.ToString()}/";

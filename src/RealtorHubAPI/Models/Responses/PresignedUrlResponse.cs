@@ -4,6 +4,6 @@
     {
         public string PresignedUrl { get; set; }
         public string FileName { get; set; }
-        public Guid LandId { get; set; }
+        public int LandId { get; set; }
     }
 }
