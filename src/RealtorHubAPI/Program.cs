@@ -338,8 +338,8 @@ try
     app.UseResponseCaching();
 
     //security
-    app.UseMiddleware<UserAgentValidationMiddleware>();
-    app.UseMiddleware<SecurityHeadersMiddleware>();
+    //app.UseMiddleware<UserAgentValidationMiddleware>();
+    //app.UseMiddleware<SecurityHeadersMiddleware>();
     //app.UseMiddleware<NotFoundRequestTrackingMiddleware>();
 
 
