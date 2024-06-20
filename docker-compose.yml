@@ -257,6 +257,7 @@ services:
       - "4100:4100"
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_URLS=http://+:4100  # Explicitly set the listening URL
       - DB_CONNECTION=${DB_CONNECTION}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - Otel__Endpoint=http://otel-collector:4317
