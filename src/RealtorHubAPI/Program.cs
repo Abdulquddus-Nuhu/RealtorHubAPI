@@ -38,7 +38,7 @@ try
     bool InDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
     if (InDocker)
     {
-        builder.WebHost.UseUrls("http://*:8080");
+        builder.WebHost.UseUrls("http://*:4100");  // Use port 4100 for Docker
         //builder.WebHost.UseUrls("https://*:8081");
     }
     else if (builder.Environment.IsProduction())
