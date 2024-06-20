@@ -16,9 +16,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Substitute Environment Variables in appsettings.Staging.json
+      - name: Substitute ConnectionString in appsettings.Staging.json
         run: |
           sed -i 's|"DefaultConnection": ".*"|"DefaultConnection": "${{ secrets.DB_CONNECTION }}"|' src/RealtorHubAPI/appsettings.Staging.json
+          sed -i 's|"CloudName": ".*"|"CloudName": "${{ secrets.CLOUDINARY_CLOUDNAME }}"|' src/RealtorHubAPI/appsettings.Staging.json
+          sed -i 's|"ApiKey": ".*"|"ApiKey": "${{ secrets.CLOUDINARY_APIKEY }}"|' src/RealtorHubAPI/appsettings.Staging.json
+          sed -i 's|"ApiSecret": ".*"|"ApiSecret": "${{ secrets.ApiSecret }}"|' src/RealtorHubAPI/appsettings.Staging.json
+          sed -i 's|"Endpoint": ".*"|"Endpoint": "${{ secrets.Endpoint }}"|' src/RealtorHubAPI/appsettings.Staging.json
+          sed -i 's|"AccessKey": ".*"|"AccessKey": "${{ secrets.AccessKey }}"|' src/RealtorHubAPI/appsettings.Staging.json
+          sed -i 's|"SecretKey": ".*"|"SecretKey": "${{ secrets.SecretKey }}"|' src/RealtorHubAPI/appsettings.Staging.json
+          sed -i 's|"BucketName": ".*"|"BucketName": "${{ secrets.BucketName }}"|' src/RealtorHubAPI/appsettings.Staging.json
 
       - name: Verify appsettings.Staging.json
         run: cat src/RealtorHubAPI/appsettings.Staging.json
