@@ -254,7 +254,7 @@ services:
   realtorhubapi:
     image: abdulquddusnuhu/realtorhubapi:staging
     ports:
-      - "5131:5131"
+      - "4100:4100"
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
       - DB_CONNECTION=${DB_CONNECTION}
