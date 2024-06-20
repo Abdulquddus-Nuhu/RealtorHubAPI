@@ -257,7 +257,6 @@ services:
       - "5131:5131"
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
-      - ASPNETCORE_HTTP_PORTS=4001
       - DB_CONNECTION=${DB_CONNECTION}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - Otel__Endpoint=http://otel-collector:4317
