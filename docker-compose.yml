@@ -121,6 +121,7 @@ services:
       - "8889:8889"
       - "13133:13133"
       - "4317:4317"
+    restart: unless-stopped
     networks:
       - monitoring
 
