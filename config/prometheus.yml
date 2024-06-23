@@ -13,3 +13,11 @@ scrape_configs:
     static_configs:
       - targets: ['otel-collector:8889']
       - targets: ['otel-collector:8888']
+
+  - job_name: 'realtor-linux-api'
+    static_configs:
+      - targets: ['localhost:4001'] 
+  
+  - job_name: 'realtor-docker-api'
+    static_configs:
+      - targets: ['localhost:4100']  # A
