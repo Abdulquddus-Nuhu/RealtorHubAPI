@@ -39,7 +39,6 @@ try
     if (InDocker)
     {
         builder.WebHost.UseUrls("http://*:4100");  // Use port 4100 for Docker
-        //builder.WebHost.UseUrls("https://*:8081");
     }
     else if (builder.Environment.IsProduction())
     {
