@@ -68,7 +68,7 @@ RealtorHubAPI is a comprehensive backend system designed for managing real estat
 - **Role-Based Access**: Pages and actions are restricted based on user roles (Admin, Realtor, User).
 
 ### API Endpoint
-The API is deployed and accessible at: [RealtorHubAPI Swagger Documentation](http://162.0.222.79:4080/swagger/index.html)
+The API is deployed and accessible at: [RealtorHubAPI Swagger Documentation](http://162.0.222.79:4060/swagger/index.html)
 
 ## Testing the API
 To test the API, you can use the following admin account credentials:
