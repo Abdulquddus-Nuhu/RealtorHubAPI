@@ -108,27 +108,12 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    //string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION") ?? string.Empty;
-    //if (string.IsNullOrWhiteSpace(connectionString))
-    //{
-    //    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-    //}
-
-    //int shortConnectStringLenght = 30;
-    //if (connectionString.Length <= shortConnectStringLenght)
-    //{
-    //    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-    //}
     string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         //options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Infrastructure"));
         options.UseNpgsql(connectionString);
     });
-
-
-    //persist keys to database
-    builder.Services.AddDataProtection().PersistKeysToDbContext<AppDbContext>();
 
 
     builder.Services.AddIdentity<User, Role>(
@@ -156,15 +141,11 @@ try
     builder.Services.AddScoped<MinioService>();
     builder.Services.AddHostedService<QueuedHostedService>();
     builder.Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-    //builder.Services.AddScoped<BackgroundProcessingService>();
-    //builder.Services.AddHostedService<BackgroundProcessingService>();
-
 
     // Register the worker responsible of seeding the database.
     builder.Services.AddHostedService<SeedDb>();
 
 
-    //var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? string.Empty);
     var key = Encoding.ASCII.GetBytes(builder.Configuration["JWT_SECRET_KEY"]);
     var tokenValidationParams = new TokenValidationParameters
     {
@@ -256,8 +237,12 @@ try
                       ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
               });
 
+        //persist keys to database
+        builder.Services.AddDataProtection().PersistKeysToDbContext<AppDbContext>();
+
+
         //Persist key
-        builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
+        //builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
     }
 
     //Remove Server Header
