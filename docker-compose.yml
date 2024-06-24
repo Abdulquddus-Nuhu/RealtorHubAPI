@@ -108,6 +108,8 @@ services:
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - Otel__Endpoint=http://otel-collector:4317
     restart: unless-stopped
+    volumes:
+      - /logs:/logs
     networks:
       - monitoring
 
