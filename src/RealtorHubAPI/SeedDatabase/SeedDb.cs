@@ -16,6 +16,7 @@ namespace RealtorHubAPI.SeedDatabase
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await using var scope = _serviceProvider.CreateAsyncScope();
+            var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<SeedDb>>();
             try
@@ -34,7 +35,7 @@ namespace RealtorHubAPI.SeedDatabase
             try
             {
                 logger.LogInformation("Seeding RealtorHub_Db Data!");
-                await SeedIdentity.SeedAsync(userManager, roleManager);
+                await SeedIdentity.SeedAsync(userManager, roleManager, config);
                 logger.LogInformation("Seeding RealtorHub_Db Successful!");
             }
             catch (Exception ex)
