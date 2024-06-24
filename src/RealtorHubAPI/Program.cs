@@ -108,17 +108,18 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION") ?? string.Empty;
-    if (string.IsNullOrWhiteSpace(connectionString))
-    {
-        connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-    }
+    //string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION") ?? string.Empty;
+    //if (string.IsNullOrWhiteSpace(connectionString))
+    //{
+    //    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    //}
 
-    int shortConnectStringLenght = 30;
-    if (connectionString.Length <= shortConnectStringLenght)
-    {
-        connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
-    }
+    //int shortConnectStringLenght = 30;
+    //if (connectionString.Length <= shortConnectStringLenght)
+    //{
+    //    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    //}
+    string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         //options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Infrastructure"));
@@ -159,7 +160,8 @@ try
     builder.Services.AddHostedService<SeedDb>();
 
 
-    var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? string.Empty);
+    //var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? string.Empty);
+    var key = Encoding.ASCII.GetBytes(builder.Configuration["JWT_SECRET_KEY"]);
     var tokenValidationParams = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
