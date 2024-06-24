@@ -32,6 +32,13 @@ jobs:
           Minio.SecretKey: ${{ secrets.MINIO_SECRETKEY_STAGING }}
           Minio.BucketName: ${{ secrets.MINIO_BUCKETNAME_STAGING }}
           ConnectionStrings.DefaultConnection: ${{ secrets.DB_CONNECTION }}
+          ROOT_ADMIN.Email: ${{ secrets.ROOT_ADMIN_EMAIL }}
+          ROOT_ADMIN.Password: ${{ secrets.ROOT_ADMIN_PASSWORD }}
+          ROOT_ADMIN.PhoneNumber: ${{ secrets.ROOT_ADMIN_PHONENUMBER }}
+          DEMO_ADMIN.Email: ${{ secrets.DEMO_ADMIN_EMAIL }}
+          DEMO_ADMIN.Password: ${{ secrets.DEMO_ADMIN_PASSWORD }}
+          DEMO_ADMIN.PhoneNumber: ${{ secrets.DEMO_ADMIN_PHONENUMBER }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
 
       - name: Log in to Docker Hub
