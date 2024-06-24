@@ -238,11 +238,11 @@ try
               });
 
         //persist keys to database
-        builder.Services.AddDataProtection().PersistKeysToDbContext<AppDbContext>();
+        //builder.Services.AddDataProtection().PersistKeysToDbContext<AppDbContext>();
 
 
         //Persist key
-        //builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
+        builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("/var/keys"));
     }
 
     //Remove Server Header

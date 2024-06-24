@@ -110,6 +110,7 @@ services:
     restart: unless-stopped
     volumes:
       - /logs:/logs
+      - /var/keys:/var/keys
     networks:
       - monitoring
 
