@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using RealtorHubAPI.Entities.Identity;
 using RealtorHubAPI.Entities;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 
 namespace RealtorHubAPI.Data
 {
-    public class AppDbContext : IdentityDbContext<User, Role, int>
+    public class AppDbContext : IdentityDbContext<User, Role, int>, IDataProtectionKeyContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
@@ -19,6 +20,9 @@ namespace RealtorHubAPI.Data
         public DbSet<PropertyImage> PropertyImages { get; set; }
         public DbSet<PropertyVideo> PropertyVideos { get; set; }
         public DbSet<Payment> Payments { get; set; }
+
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; } = null!;
+        //public DbSet<DataProtectionKey> DataProtectionKeys => throw new NotImplementedException();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
