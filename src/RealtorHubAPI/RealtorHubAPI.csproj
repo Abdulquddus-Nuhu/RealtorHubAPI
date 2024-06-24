@@ -14,6 +14,7 @@
     <PackageReference Include="Coinbase" Version="6.0.1" />
     <PackageReference Include="Coinbase.Commerce" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
 		<PrivateAssets>all</PrivateAssets>

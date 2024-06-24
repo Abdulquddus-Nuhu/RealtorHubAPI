@@ -127,6 +127,10 @@ try
     });
 
 
+    //persist keys to database
+    builder.Services.AddDataProtection().PersistKeysToDbContext<AppDbContext>();
+
+
     builder.Services.AddIdentity<User, Role>(
                options =>
                {
