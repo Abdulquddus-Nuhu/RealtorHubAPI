@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using RealtorHubAPI.Entities.Enums;
 using RealtorHubAPI.Entities.Identity;
 using RealtorHubAPI.Models.Requests;
+using Swashbuckle.AspNetCore.Annotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Text;
 
@@ -17,16 +20,29 @@ namespace RealtorHubAPI.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager,
+            ILogger<AuthController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _logger = logger;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUser dto)
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "A New User Can Signup With This Endpoint",
+          Description = "")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
+        [HttpPost("sign-up")]
+        public async Task<IActionResult> SignUpUser(RegisterUserRequest dto)
         {
             var user = new User
             {
@@ -44,6 +60,59 @@ namespace RealtorHubAPI.Controllers
             return BadRequest(result.Errors);
         }
 
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Register A New Realtor Endpoint",
+          Description = "It requires Admin Privelage")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterRealtor(RegisterUserRequest request)
+        {
+            var user = new User
+            {
+                UserName = request.Email,
+                Email = request.Email,
+                State = request.State,
+                Address = request.Address,
+                City = request.City,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                MiddleName = request.MiddleName,
+                PhoneNumber = request.PhoneNumber,
+                Role = RoleType.Realtor,               
+            };
+
+            _logger.LogInformation("Creating a new Realtor with {0}", request.Email);
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("Realtor with {0} created successfully", request.Email);
+
+                await _userManager.AddToRoleAsync(user, nameof(RoleType.Realtor));
+
+                //todo: send email to realtor plus password
+                return Ok(new { user.Id, user.UserName, user.Email });
+            }
+
+            return BadRequest(new { error = result.Errors });
+        }
+
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Login Endpoint",
+          Description = "")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest dto)
         {

@@ -19,17 +19,16 @@ namespace RealtorHubAPI.Entities.Identity
 
         public RoleType Role { get; set; }
 
+        /// <summary>
+        /// Description of realtor company
+        /// </summary>
+        public string? Description { get; set; }
+
 
         public string? Address { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
-
-
-        [StringLength(50)]
-        public string? Pin { get; set; }
-
-        public string? PinHash { get; set; }
-        public bool IsActive { get; set; } = false;
+        public bool IsActive { get; set; } = true;
  
 
 

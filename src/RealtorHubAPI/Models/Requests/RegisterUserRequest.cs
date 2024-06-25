@@ -2,7 +2,7 @@
 
 namespace RealtorHubAPI.Models.Requests
 {
-    public record RegisterUser
+    public record RegisterUserRequest
     {
         [Required]
         public string FirstName { get; set; }
@@ -13,10 +13,10 @@ namespace RealtorHubAPI.Models.Requests
 
 
         [Required]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         
         [Required]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Please provide a value for password field"), MinLength(8, ErrorMessage = "Password must consist of at least 8 characters")]
         [StringLength(255)]

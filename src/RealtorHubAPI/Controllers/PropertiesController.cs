@@ -40,6 +40,16 @@ namespace RealtorHubAPI.Controllers
             _serviceProvider = serviceProvider;
         }
 
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Create A New Property Endpoint",
+          Description = "It requires Admin or Realtor privelage")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpPost("create-property")]
         public async Task<IActionResult> CreateProperty(CreateLandRequest request)
         {
@@ -59,6 +69,9 @@ namespace RealtorHubAPI.Controllers
                 Location = request.Location,
                 Description = request.Description,
                 Title = request.Title,
+                Area = request.Area,
+                Price = request.Price,
+                Type = request.Type,
                 UserId = UserId
             };
 
@@ -68,7 +81,16 @@ namespace RealtorHubAPI.Controllers
             return Ok(new { propertyId = property.Id, Messsage = "Property created successfully" });
         }
 
-
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Get A Property Endpoint",
+          Description = "")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpGet("{propertyId}")]
         public async Task<IActionResult> GetProperty(int propertyId)
         {
@@ -82,6 +104,9 @@ namespace RealtorHubAPI.Controllers
                     Description = l.Description,
                     IsAvailable = l.IsAvailable,
                     Location = l.Location,
+                    Area = l.Area,
+                    Price = l.Price,
+                    PropertyType = l.Type.ToString(),
                     UserId = l.UserId,
                     Images = l.Images.Select(c => new PropertyFileResponse { FileId = c.Id, Url = c.Url, }),
                     Videos = l.Videos.Select(c => new PropertyFileResponse { FileId = c.Id, Url = c.Url, }),
@@ -95,7 +120,16 @@ namespace RealtorHubAPI.Controllers
             return Ok(property);
         }
 
-
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Delete A Property Endpoint",
+          Description = "It requires Admin or Realtor privelage")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpDelete("{propertyId}")]
         public async Task<IActionResult> DeleteProperty(int propertyId)
         {
@@ -109,7 +143,16 @@ namespace RealtorHubAPI.Controllers
             return Ok(new BaseResponse() { Code = 200, Message = "Property Deleted", Status = true });
         }
 
-
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Get All Properties Endpoint",
+          Description = "")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpGet("list")]
         public async Task<IActionResult> GetProperties()
         {
@@ -125,6 +168,9 @@ namespace RealtorHubAPI.Controllers
                     Description = l.Description,
                     IsAvailable = l.IsAvailable,
                     Location = l.Location,
+                    Area = l.Area,
+                    Price = l.Price,
+                    PropertyType = l.Type.ToString(),
                     UserId = l.UserId,
                     Images = l.Images.Select(c => new PropertyFileResponse { FileId = c.Id, Url = c.Url, }),
                     Videos = l.Videos.Select(c => new PropertyFileResponse { FileId = c.Id, Url = c.Url, }),
@@ -134,7 +180,16 @@ namespace RealtorHubAPI.Controllers
             return Ok(lands);
         }
 
-
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Upload Image For A New Property Endpoint",
+          Description = "It requires Admin or Realtor privelage")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpPost("{propertyId}/image")]
         public async Task<IActionResult> UploadImage(int propertyId, IFormFile file)
         {
@@ -154,7 +209,6 @@ namespace RealtorHubAPI.Controllers
             {
                 return StatusCode(500, new BaseResponse() { Message = "File not uploaded successfully! Please try again", Status = false });
             }
-            //todo: save filelocation to property with propertyId
 
             var propertyImage = new PropertyImage()
             {
@@ -173,7 +227,7 @@ namespace RealtorHubAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-          Summary = "Generate Presigned URL To Be Able Upload Video Files That Are More Than 50MB",
+          Summary = "Generate Presigned URL To Be Able Upload Video Files That Are More Than 30MB Endpoint",
           Description = "")
          //OperationId = "auth.login",
          //Tags = new[] { "AuthEndpoints" })
@@ -185,7 +239,16 @@ namespace RealtorHubAPI.Controllers
             return Ok(presignedUrl);
         }
 
-
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Notify The Server Of A Heavy File More Than 30MB Upload Endpoint",
+          Description = "")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpPost("notify-file-upload")]
         public IActionResult NotifyFileUpload([FromBody] FileNotificationRequest request)
         {
@@ -212,7 +275,16 @@ namespace RealtorHubAPI.Controllers
         }
 
 
-
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Upload Video For A Property Endpoint",
+          Description = "It requires Admin or Realtor privelage")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpPost("{propertyId}/video")]
         //[RequestSizeLimit(104857600)] // 100 MB
         public async Task<IActionResult> UploadVideo(int propertyId, IFormFile file)
@@ -234,7 +306,6 @@ namespace RealtorHubAPI.Controllers
                 return StatusCode(500, new BaseResponse() { Message = "File not uploaded successfully! Please try again", Status = false });
             }
 
-            //todo: save filelocation to property with propertyId
             var propertyVideo = new PropertyVideo()
             {
                 PropertyId = propertyId,
@@ -252,7 +323,7 @@ namespace RealtorHubAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-          Summary = "Generate Presigned URL To Be Able To View A Video or Image",
+          Summary = "Generate Presigned URL To Be Able To View A Video or Image Endpoint",
           Description = "")
          //OperationId = "auth.login",
          //Tags = new[] { "AuthEndpoints" })
@@ -315,6 +386,16 @@ namespace RealtorHubAPI.Controllers
             return Ok(new { message = "File deleted successfully." });
         }
 
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Download A File Endpoint",
+          Description = "")
+         //OperationId = "auth.login",
+         //Tags = new[] { "AuthEndpoints" })
+         ]
         [HttpGet("download-file")]
         public async Task<ActionResult> DownloadFileAsync(string fileLocation)
         {
