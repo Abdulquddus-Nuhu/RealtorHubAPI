@@ -47,8 +47,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Create A New Property Endpoint",
           Description = "It requires Admin or Realtor privelage")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpPost("create-property")]
         public async Task<IActionResult> CreateProperty(CreateLandRequest request)
@@ -88,8 +86,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Get A Property Endpoint",
           Description = "")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpGet("{propertyId}")]
         public async Task<IActionResult> GetProperty(int propertyId)
@@ -127,8 +123,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Delete A Property Endpoint",
           Description = "It requires Admin or Realtor privelage")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpDelete("{propertyId}")]
         public async Task<IActionResult> DeleteProperty(int propertyId)
@@ -150,8 +144,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Get All Properties Endpoint",
           Description = "")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpGet("list")]
         public async Task<IActionResult> GetProperties()
@@ -187,8 +179,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Upload Image For A New Property Endpoint",
           Description = "It requires Admin or Realtor privelage")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpPost("{propertyId}/image")]
         public async Task<IActionResult> UploadImage(int propertyId, IFormFile file)
@@ -229,8 +219,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Generate Presigned URL To Be Able Upload Video Files That Are More Than 30MB Endpoint",
           Description = "")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpPost("generate-presigned-url")]
         public async Task<IActionResult> GeneratePresignedUrl(int propertyId)
@@ -246,8 +234,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Notify The Server Of A Heavy File More Than 30MB Upload Endpoint",
           Description = "")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpPost("notify-file-upload")]
         public IActionResult NotifyFileUpload([FromBody] FileNotificationRequest request)
@@ -282,8 +268,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Upload Video For A Property Endpoint",
           Description = "It requires Admin or Realtor privelage")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpPost("{propertyId}/video")]
         //[RequestSizeLimit(104857600)] // 100 MB
@@ -325,8 +309,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Generate Presigned URL To Be Able To View A Video or Image Endpoint",
           Description = "")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpGet("generate-presigned-url")]
         public async Task<IActionResult> GeneratePresignedUrlForView([FromQuery] string fileName)
@@ -393,8 +375,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Download A File Endpoint",
           Description = "")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpGet("download-file")]
         public async Task<ActionResult> DownloadFileAsync(string fileLocation)

@@ -38,8 +38,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "A New User Can Signup With This Endpoint",
           Description = "")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUpUser(RegisterUserRequest dto)
@@ -67,8 +65,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Register A New Realtor Endpoint",
           Description = "It requires Admin Privelage")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpPost("register")]
         public async Task<IActionResult> RegisterRealtor(RegisterUserRequest request)
@@ -110,8 +106,6 @@ namespace RealtorHubAPI.Controllers
         [SwaggerOperation(
           Summary = "Login Endpoint",
           Description = "")
-         //OperationId = "auth.login",
-         //Tags = new[] { "AuthEndpoints" })
          ]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest dto)
