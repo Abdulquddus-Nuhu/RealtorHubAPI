@@ -46,7 +46,7 @@ namespace RealtorHubAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
           Summary = "Create A New Property Endpoint",
-          Description = "It requires Admin or Realtor privelage")
+          Description = "It requires Admin or Realtor privelage. 0 -- Land, 1 -- House")
          ]
         [HttpPost("create-property")]
         public async Task<IActionResult> CreateProperty(CreateLandRequest request)
