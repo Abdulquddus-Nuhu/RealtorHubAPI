@@ -346,9 +346,10 @@ try
     app.UseAuthentication();
     app.UseAuthorization();
 
-
-
     app.MapControllers();
+
+    app.UseOpenTelemetryPrometheusScrapingEndpoint();
+
 
     app.Run();
 

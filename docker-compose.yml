@@ -102,7 +102,7 @@ services:
       - "4100:4100"
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
-      - ASPNETCORE_URLS=http://+:4100  # Explicitly set the listening URL
+      - ASPNETCORE_URLS=http://+:4100 
       - ASPNETCORE_HTTP_PORTS=4100
       - DB_CONNECTION=${DB_CONNECTION}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
