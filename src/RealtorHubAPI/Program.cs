@@ -108,7 +108,16 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    string connectionString = string.Empty;
+    if (InDocker)
+    {
+        connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    }
+    else
+    {
+        connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION") ?? string.Empty;
+    }
+
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         //options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Infrastructure"));
@@ -348,7 +357,7 @@ try
 
     app.MapControllers();
 
-    app.UseOpenTelemetryPrometheusScrapingEndpoint();
+    //app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
 
     app.Run();
