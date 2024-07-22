@@ -324,6 +324,15 @@ namespace RealtorHubAPI.Controllers
             }
         }
 
+
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [SwaggerOperation(
+          Summary = "Delete A File Endpoint",
+          Description = "It requires Admin or Realtor privelage")
+         ]
         [HttpDelete("delete-file")]
         public async Task<IActionResult> DeleteFile(string fileLocation)
         {
